@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """ #+begin_org
-* ~[Summary]~ :: A =CmndSvc= for
+* ~[Summary]~ :: A =CmndSvc= for for setting up Marmee (Multi-Account Resident Mail Exchange Environment) AAS (Accessible Abstract Service).
 #+end_org """
 
-####+BEGIN: b:py3:cs:file/dblockControls :classification "cs-u"
+####+BEGIN: b:py3:cs:file/dblockControls :classification "cs-mu"
 """ #+begin_org
-* [[elisp:(org-cycle)][| /Control Parameters Of This File/ |]] :: dblk ctrls classifications=cs-u
+* [[elisp:(org-cycle)][| /Control Parameters Of This File/ |]] :: dblk ctrls classifications=cs-mu
 #+BEGIN_SRC emacs-lisp
 (setq-local b:dblockControls t) ; (setq-local b:dblockControls nil)
-(put 'b:dblockControls 'py3:cs:Classification "cs-u") ; one of cs-mu, cs-u, cs-lib, bpf-lib, pyLibPure
+(put 'b:dblockControls 'py3:cs:Classification "cs-mu") ; one of cs-mu, cs-u, cs-lib, b-lib, pyLibPure
 #+END_SRC
 #+RESULTS:
-: cs-u
+: cs-mu
 #+end_org """
 ####+END:
 
@@ -29,27 +29,28 @@
 ####+BEGIN: b:prog:file/particulars :authors ("./inserts/authors-mb.org")
 """ #+begin_org
 * *[[elisp:(org-cycle)][| Particulars |]]* :: Authors, version
-** This File: /bisos/git/auth/bxRepos/bisos-pip/marmee/py3/bin/marmeeRuns.cs
+** This File: /bisos/git/auth/bxRepos/bisos-pip/marmee/py3/bin/aasMarmeeManage.cs
 ** Authors: Mohsen BANAN, http://mohsen.banan.1.byname.net/contact
 #+end_org """
 ####+END:
 
-####+BEGIN: b:py3:file/particulars-csInfo :status "inUse"
+####+BEGIN: b:python:file/particulars-csInfo :status "inUse"
 """ #+begin_org
 * *[[elisp:(org-cycle)][| Particulars-csInfo |]]*
 #+end_org """
 import typing
-csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['marmeeRuns'], }
-csInfo['version'] = '202210202346'
+csInfo: typing.Dict[str, typing.Any] = { 'moduleName': ['aasMarmeeManage'], }
+csInfo['version'] = '202209280025'
 csInfo['status']  = 'inUse'
-csInfo['panel'] = 'marmeeRuns-Panel.org'
+csInfo['panel'] = 'aasMarmeeManage-Panel.org'
 csInfo['groupingType'] = 'IcmGroupingType-pkged'
 csInfo['cmndParts'] = 'IcmCmndParts[common] IcmCmndParts[param]'
 ####+END:
 
-""" #+begin_org
+csInfo['moduleDescription'] = """ #+begin_org
 * [[elisp:(org-cycle)][| ~Description~ |]] :: [[file:/bisos/git/auth/bxRepos/blee-binders/bisos-core/COMEEGA/_nodeBase_/fullUsagePanel-en.org][BISOS COMEEGA Panel]]
-Module description comes here.
+A =CmndSvc= for for setting up Marmee (Multi-Account Resident Mail Exchange Environment) AAS (Accessible Abstract Service).
+Manages Mail Account Profiles. Sets up currents. Works with -niche.
 ** Relevant Panels:
 ** Status: In use with BISOS
 ** /[[elisp:(org-cycle)][| Planned Improvements |]]/ :
@@ -63,15 +64,21 @@ Module description comes here.
 #+end_org """
 ####+END:
 
-####+BEGIN: b:py3:file/workbench :outLevel 1
+####+BEGIN: b:python:file/workbench :outLevel 1
 """ #+begin_org
 * [[elisp:(org-cycle)][| Workbench |]] :: [[elisp:(python-check (format "/bisos/venv/py3/bisos3/bin/python -m pyclbr %s" (bx:buf-fname))))][pyclbr]] || [[elisp:(python-check (format "/bisos/venv/py3/bisos3/bin/python -m pydoc ./%s" (bx:buf-fname))))][pydoc]] || [[elisp:(python-check (format "/bisos/pipx/bin/pyflakes %s" (bx:buf-fname)))][pyflakes]] | [[elisp:(python-check (format "/bisos/pipx/bin/pychecker %s" (bx:buf-fname))))][pychecker (executes)]] | [[elisp:(python-check (format "/bisos/pipx/bin/pycodestyle %s" (bx:buf-fname))))][pycodestyle]] | [[elisp:(python-check (format "/bisos/pipx/bin/flake8 %s" (bx:buf-fname))))][flake8]] | [[elisp:(python-check (format "/bisos/pipx/bin/pylint %s" (bx:buf-fname))))][pylint]]  [[elisp:(org-cycle)][| ]]
 #+end_org """
 ####+END:
 
+####+BEGIN: b:py3:cs:orgItem/basic :type "=PyImports= " :title "*Py Library IMPORTS*" :comment "-- with classification based framework/imports"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  =PyImports=  [[elisp:(outline-show-subtree+toggle)][||]] *Py Library IMPORTS* -- with classification based framework/imports  [[elisp:(org-cycle)][| ]]
+#+end_org """
+####+END:
+
 ####+BEGIN: b:py3:cs:framework/imports :basedOn "classification"
 """ #+begin_org
-** Imports Based On Classification=cs-u
+** Imports Based On Classification=cs-mu
 #+end_org """
 from bisos import b
 from bisos.b import cs
@@ -80,6 +87,11 @@ from bisos.b import b_io
 import collections
 ####+END:
 
+import sys
+import collections
+
+from bisos.currents import currentsConfig
+
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~csuList emacs-list Specifications~  [[elisp:(blee:org:code-block/above-run)][ /Eval Below/ ]] [[elisp:(org-cycle)][| ]]
 #+BEGIN_SRC emacs-lisp
@@ -87,24 +99,35 @@ import collections
   (list
    "bisos.b.cs.ro"
    "bisos.csPlayer.bleep"
-   "bisos.sites.sites_csu"
+   "bisos.b.fp_csu"
+   "bisos.bpo.bpo"              ;; param bpoId
+   "bisos.bpo.bpoFps_csu"
+   ;; "bisos.bpo.bpoRunBases"
+   "bisos.b.fpCls"              ;; param fpBase
+   "bisos.b.clsMethod_csu"      ;; param cls
+   "bisos.sites.platfSiteBootstrap_fps"
  ))
 #+END_SRC
 #+RESULTS:
-| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.sites.sites_csu |
+| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap_fps |
 #+end_org """
 
 ####+BEGIN: b:py3:cs:framework/csuListProc :pyImports t :csuImports t :csuParams t
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /3/ in csuList pyImports=t csuImports=t csuParams=t
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /8/ in csuList pyImports=t csuImports=t csuParams=t
 #+end_org """
 
 from bisos.b.cs import ro
 from bisos.csPlayer import bleep
-from bisos.sites import sites_csu
+from bisos.b import fp_csu
+from bisos.bpo import bpo
+from bisos.bpo import bpoFps_csu
+from bisos.b import fpCls
+from bisos.b import clsMethod_csu
+from bisos.sites import platfSiteBootstrap_fps
 
 
-csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.sites.sites_csu', ]
+csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap_fps', ]
 
 g_importedCmndsModules = cs.csuList_importedModules(csuList)
 
@@ -115,60 +138,67 @@ def g_extraParams():
 
 ####+END:
 
+####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs")
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /1/ in Classes List
+#+end_org """
+
+PlatfSiteBootstrap_FPs = platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs # exec/eval-ed as __main__.ClassName
+
+####+END:
+
 ####+BEGIN: b:py3:cs:main/exposedSymbols :classes ()
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~Exposed Symbols List Specification~ with /0/ in Classes List
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /0/ in Classes List
 #+end_org """
 ####+END:
 
-####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CmndSvcs" :anchor ""  :extraInfo "Command Services Section"
+cs.invOutcomeReportControl(cmnd=True,)
+
+
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 1 :title "CmndSvc-s" :extraInfo "class someCommand(cs.Cmnd)"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _CmndSvcs_: |]]  Command Services Section  [[elisp:(org-shifttab)][<)]] E|
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*       [[elisp:(outline-show-subtree+toggle)][| *CmndSvc-s:* |]]  class someCommand(cs.Cmnd)  [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
 ####+END:
 
-####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "examples" :extent "verify" :ro "noCli" :comment "FrameWrk: CS-Main-Examples" :parsMand "" :parsOpt "" :argsMin "0" :argsMax "0" :asFunc "" :interactiveP ""
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "examples" :cmndType ""  :comment "FrameWrk: ICM Examples" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<examples>>  *FrameWrk: CS-Main-Examples*  =verify= argsMin=0 argsMax=0 ro=noCli   [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<examples>>  *FrameWrk: ICM Examples*  =verify= ro=cli   [[elisp:(org-cycle)][| ]]
 #+end_org """
 class examples(cs.Cmnd):
     cmndParamsMandatory = [ ]
     cmndParamsOptional = [ ]
     cmndArgsLen = {'Min': 0, 'Max': 0,}
-    rtInvConstraints = cs.rtInvoker.RtInvoker.new_noRo() # NO RO From CLI
 
     @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
     def cmnd(self,
              rtInv: cs.RtInvoker,
              cmndOutcome: b.op.Outcome,
-             argsList: typing.Optional[list[str]]=None,  # CsArgs
     ) -> b.op.Outcome:
-        """FrameWrk: CS-Main-Examples"""
+        """FrameWrk: ICM Examples"""
+        failed = b_io.eh.badOutcome
         callParamsDict = {}
-        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
-            return b_io.eh.badOutcome(cmndOutcome)
-        cmndArgsSpecDict = self.cmndArgsSpec()
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return failed(cmndOutcome)
 ####+END:
-        self.cmndDocStr(f""" #+begin_org ***** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Conventional top level example.
+        self.cmndDocStr(f""" #+begin_org *
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Conventional top level example.
         #+end_org """)
 
-        def cpsInit(): return collections.OrderedDict()
-        def menuItem(verbosity): cs.examples.cmndInsert(cmndName, cps, cmndArgs, verbosity=verbosity) # 'little' or 'none'
-        def execLineEx(cmndStr): cs.examples.execInsert(execLine=cmndStr)
+        siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
 
         cs.examples.myName(cs.G.icmMyName(), cs.G.icmMyFullName())
+
         cs.examples.commonBrief()
+
         bleep.examples_csBasic()
 
-        sites_csu.examples_csu().pyCmnd()
+        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSiteBootstrap_FPs')
+
+        b.niche.examplesNicheRun("usageEnvs")
 
         return(cmndOutcome)
-
-####+BEGIN: bx:icm:py3:section :title "CS-Commands"
-""" #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *CS-Commands*  [[elisp:(org-cycle)][| ]]
-#+end_org """
-####+END:
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "Main" :anchor ""  :extraInfo "Framework Dblock"
 """ #+begin_org
