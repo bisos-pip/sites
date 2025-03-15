@@ -104,18 +104,19 @@ from bisos.currents import currentsConfig
    "bisos.bpo.bpoFps_csu"
    ;; "bisos.bpo.bpoRunBases"
    "bisos.b.fpCls"              ;; param fpBase
-   "bisos.b.clsMethod_csu"      ;; param cls
-   "bisos.sites.platfSiteBootstrap_fps"
-   "bisos.sites.platfSiteBootstrap_csu"
+   "bisos.b.clsMethod_csu"      ;; param cl
+   "bisos.sites.platfSiteBootstrap"
+   "bisos.sites.platfSitesActivate_fps"
+   "bisos.sites.platfSitesActivate_csu"
  ))
 #+END_SRC
 #+RESULTS:
-| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap_fps | bisos.sites.platfSiteBootstrap_csu |
+| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap | bisos.sites.platfSitesActivate_fps | bisos.sites.platfSitesActivate_csu |
 #+end_org """
 
 ####+BEGIN: b:py3:cs:framework/csuListProc :pyImports t :csuImports t :csuParams t
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /9/ in csuList pyImports=t csuImports=t csuParams=t
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /10/ in csuList pyImports=t csuImports=t csuParams=t
 #+end_org """
 
 from bisos.b.cs import ro
@@ -125,11 +126,12 @@ from bisos.bpo import bpo
 from bisos.bpo import bpoFps_csu
 from bisos.b import fpCls
 from bisos.b import clsMethod_csu
-from bisos.sites import platfSiteBootstrap_fps
-from bisos.sites import platfSiteBootstrap_csu
+from bisos.sites import platfSiteBootstrap
+from bisos.sites import platfSitesActivate_fps
+from bisos.sites import platfSitesActivate_csu
 
 
-csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap_fps', 'bisos.sites.platfSiteBootstrap_csu', ]
+csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap', 'bisos.sites.platfSitesActivate_fps', 'bisos.sites.platfSitesActivate_csu', ]
 
 g_importedCmndsModules = cs.csuList_importedModules(csuList)
 
@@ -140,12 +142,12 @@ def g_extraParams():
 
 ####+END:
 
-####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs")
+####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("platfSitesActivate_fps.PlatfSitesActivate_FPs")
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /1/ in Classes List
 #+end_org """
 
-PlatfSiteBootstrap_FPs = platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs # exec/eval-ed as __main__.ClassName
+PlatfSitesActivate_FPs = platfSitesActivate_fps.PlatfSitesActivate_FPs # exec/eval-ed as __main__.ClassName
 
 ####+END:
 
@@ -196,9 +198,11 @@ class examples(cs.Cmnd):
 
         bleep.examples_csBasic()
 
-        platfSiteBootstrap_csu.examples_csu()
+        platfSiteBootstrap.examples_csu()
 
-        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSiteBootstrap_FPs')
+        platfSitesActivate_csu.examples_csu()
+
+        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSitesActivate_FPs')
 
         b.niche.examplesNicheRun("usageEnvs")
 
