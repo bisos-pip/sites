@@ -107,16 +107,15 @@ from bisos.currents import currentsConfig
    "bisos.b.clsMethod_csu"      ;; param cl
    "bisos.sites.platfSiteBootstrap"
    "bisos.sites.platfSitesActivate_fps"
-   "bisos.sites.platfSitesActivate_csu"
  ))
 #+END_SRC
 #+RESULTS:
-| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap | bisos.sites.platfSitesActivate_fps | bisos.sites.platfSitesActivate_csu |
+| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap | bisos.sites.platfSitesActivate_fps |
 #+end_org """
 
 ####+BEGIN: b:py3:cs:framework/csuListProc :pyImports t :csuImports t :csuParams t
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /10/ in csuList pyImports=t csuImports=t csuParams=t
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /9/ in csuList pyImports=t csuImports=t csuParams=t
 #+end_org """
 
 from bisos.b.cs import ro
@@ -128,10 +127,9 @@ from bisos.b import fpCls
 from bisos.b import clsMethod_csu
 from bisos.sites import platfSiteBootstrap
 from bisos.sites import platfSitesActivate_fps
-from bisos.sites import platfSitesActivate_csu
 
 
-csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap', 'bisos.sites.platfSitesActivate_fps', 'bisos.sites.platfSitesActivate_csu', ]
+csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap', 'bisos.sites.platfSitesActivate_fps', ]
 
 g_importedCmndsModules = cs.csuList_importedModules(csuList)
 
@@ -198,9 +196,9 @@ class examples(cs.Cmnd):
 
         bleep.examples_csBasic()
 
-        platfSiteBootstrap.examples_csu()
+        # platfSiteBootstrap.examples_csu()
 
-        platfSitesActivate_csu.examples_csu()
+        platfSitesActivate_fps.examples_csu()
 
         bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSitesActivate_FPs')
 

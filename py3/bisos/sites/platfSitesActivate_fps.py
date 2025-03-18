@@ -88,6 +88,7 @@ import collections
 from bisos.bpo import bpo
 from bisos.bpo import bpoFpsCls
 # from bisos.common import csParam
+from bisos.sites import platfSiteBootstrap
 
 import pathlib
 import os
@@ -211,6 +212,243 @@ class PlatfSitesActivate_FPs(bpoFpsCls.BpoFpsCls):
 
         return self._manifestDict
 
+
+####+BEGIN: b:py3:cs:func/typing :funcName "examples_csu" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-T-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /examples_csu/  deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+def examples_csu(
+####+END:
+        csName: str='',
+) -> None:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ] Basic example command.
+    #+end_org """
+
+    #od = collections.OrderedDict
+    cmnd = cs.examples.cmndEnter
+    # literal = cs.examples.execInsert
+
+    if csName == '':
+        cs.examples.menuChapter('=Get and  Set Parameters=')
+
+    siteBpoId = platfSiteBootstrap.platfSiteBootstrap_primaryBpo().pyCmnd().results
+    bpoFps =PlatfSitesActivate_FPs(bpoId=str(siteBpoId))
+    fpBase  = bpoFps.basePath_obtain()
+    fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
+    argChoices = fileParsDict.keys()
+
+    for thisArg in argChoices:
+        cmnd('parGet', csName=csName, args=thisArg, comment=" # PRIMARY -- Read Value of FileParam")
+        curVal = parGet().pyCmnd(argsList=[thisArg]).results
+        cmnd('parSet', csName=csName, args=f"{thisArg} {curVal}", comment=" # PRIMARY -- Write Value of FileParam -- Edit Current Value")
+
+    if csName:
+        cmnd('bpoFpsFullReport', csName=csName, comment=" # Produce a full report")
+
+####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CmndSvc" :anchor ""  :extraInfo "Command Services Section"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _Invoker Only CmndSvc_: |]]  Command Services Section  [[elisp:(org-shifttab)][<)]] E|
+#+end_org """
+####+END:
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "bpoFpsFullReport" :comment "" :extent "verify" :ro "noCli" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<bpoFpsFullReport>>  =verify= ro=noCli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class bpoFpsFullReport(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+    rtInvConstraints = cs.rtInvoker.RtInvoker.new_noRo() # NO RO From CLI
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return failed(cmndOutcome)
+####+END:
+        if self.cmndDocStr(""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given one fileParamName, get its value
+        #+end_org """): return(cmndOutcome)
+
+        siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
+
+        bpoFps_csu.bpoFpsClsFullReport().pyCmnd(
+            rtInv=rtInv,
+            bpoId=siteBpoId,
+            cls="PlatfSiteBootstrap_FPs"
+        )
+
+        return cmndOutcome
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "parGet" :comment "" :extent "verify" :ro "noCli" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<parGet>>  =verify= argsMin=1 argsMax=1 ro=noCli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class parGet(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 1, 'Max': 1,}
+    rtInvConstraints = cs.rtInvoker.RtInvoker.new_noRo() # NO RO From CLI
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             argsList: list[str]=[],  # CsArgs
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+####+END:
+        if self.cmndDocStr(""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given one fileParamName, get its value
+        #+end_org """): return(cmndOutcome)
+
+        self.captureRunStr(""" #+begin_org
+#+begin_src sh :results output :session shared
+  platfSiteBootstrap-fps.cs  -i parGet acct
+#+end_src
+#+RESULTS:
+        #+end_org """)
+        if self.justCaptureP(): return cmndOutcome
+
+        siteBpoId = platfSiteBootstrap.platfSiteBootstrap_primaryBpo().pyCmnd().results
+        bpoFps =PlatfSitesActivate_FPs(bpoId=str(siteBpoId))
+
+        fileParamName = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
+
+        fileCmndParamName = f"{bpoFps._cmndParPrefix}{fileParamName}"
+
+        parValue = bpoFps.fps_getParam(fileCmndParamName)
+
+        if parValue is None:
+            return failed(cmndOutcome)
+
+        return cmndOutcome.set(opResults=parValue.parValueGet(),)
+
+####+BEGIN: b:py3:cs:method/typing :methodName "cmndArgsSpec" :methodType "ArgsSpec" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-ArgsSpec [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(
+####+END:
+            self,
+) -> cs.arg.CmndArgsSpecDict:
+        """ #+begin_org
+*** [[elisp:(org-cycle)][| *cmndArgsSpec:* |]] Command Argument Specifications. argChoices derived from bpoFpsCls.
+        #+end_org """
+
+        siteBpoId = platfSiteBootstrap.platfSiteBootstrap_primaryBpo().pyCmnd().results
+        bpoFps =PlatfSitesActivate_FPs(bpoId=str(siteBpoId))
+        fpBase  = bpoFps.basePath_obtain()
+        fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
+        argChoices = fileParsDict.keys()
+
+        cmndArgsSpecDict = cs.arg.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0",
+            argName="fileParamName",
+            argChoices=argChoices,
+            argDescription="fileParamName not fileCmndParamName"
+        )
+        return cmndArgsSpecDict
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "parSet" :comment "" :extent "verify" :ro "noCli" :parsMand "" :parsOpt "" :argsMin 2 :argsMax 2 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<parSet>>  =verify= argsMin=2 argsMax=2 ro=noCli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class parSet(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 2, 'Max': 2,}
+    rtInvConstraints = cs.rtInvoker.RtInvoker.new_noRo() # NO RO From CLI
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+####+END:
+        if self.cmndDocStr(""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given one fileParamName, get its value
+        #+end_org """): return(cmndOutcome)
+
+        self.captureRunStr(""" #+begin_org
+#+begin_src sh :results output :session shared
+  platfSiteBootstrap-fps.cs  -i parGet acct
+#+end_src
+#+RESULTS:
+        #+end_org """)
+        if self.justCaptureP(): return cmndOutcome
+
+        siteBpoId = platfSiteBootstrap.platfSiteBootstrap_primaryBpo().pyCmnd().results
+        bpoFps =PlatfSitesActivate_FPs(bpoId=str(siteBpoId))
+
+        fileParamName = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
+        fileParamValue = self.cmndArgsGet("1", cmndArgsSpecDict, argsList)
+
+        # fileCmndParamName = f"{bpoFps._cmndParPrefix}{fileParamName}"
+
+        parValue = bpoFps.fps_setParam(fileParamName, fileParamValue)
+
+        return cmndOutcome.set(opResults=fileParamValue,)
+
+####+BEGIN: b:py3:cs:method/typing :methodName "cmndArgsSpec" :methodType "ArgsSpec" :deco "default"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-ArgsSpec [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/  deco=default  [[elisp:(org-cycle)][| ]]
+    #+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(
+####+END:
+            self,
+) -> cs.arg.CmndArgsSpecDict:
+        """ #+begin_org
+*** [[elisp:(org-cycle)][| *cmndArgsSpec:* |]] Command Argument Specifications. argChoices derived from bpoFpsCls.
+        #+end_org """
+
+        siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
+        bpoFps =PlatfSitesActivate_FPs(bpoId=str(siteBpoId))
+        fpBase  = bpoFps.basePath_obtain()
+        fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
+        argChoices = fileParsDict.keys()
+
+        cmndArgsSpecDict = cs.arg.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0",
+            argName="fileParamName",
+            argChoices=argChoices,
+            argDescription="fileParamName not fileCmndParamName"
+        )
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="1",
+            argName="fileParamValue",
+            argDescription="fileParamValue used in bpoFps.fps_getParam"
+        )
+
+        return cmndArgsSpecDict
+
+    
 ####+BEGIN: b:py3:cs:framework/endOfFile :basedOn "classification"
 """ #+begin_org
 * *[[elisp:(org-cycle)][| ~End-Of-Editable-Text~ |]]* :: emacs and org variables and control parameters

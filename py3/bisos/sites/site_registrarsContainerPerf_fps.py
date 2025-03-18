@@ -87,6 +87,8 @@ import collections
 
 from bisos.bpo import bpo
 from bisos.bpo import bpoFpsCls
+from bisos.bpo import bpoFps_csu
+
 # from bisos.common import csParam
 
 import pathlib
@@ -118,14 +120,14 @@ def commonParamsSpecify(
 ** Invoked class's static method.
     """
 
-    PlatfSiteBootstrap_FPs.fps_asCsParamsAdd(csParams,)
+    site_RegistrarsContainerPerf_FPs.fps_asCsParamsAdd(csParams,)
 
 
-####+BEGIN: bx:dblock:python:class :className "PlatfSiteBootstrap_FPs" :superClass "bpoFpsCls.BpoFpsCls" :comment "" :classType "basic"
+####+BEGIN: bx:dblock:python:class :className "site_RegistrarsContainerPerf_FPs" :superClass "bpoFpsCls.BpoFpsCls" :comment "" :classType "basic"
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /PlatfSiteBootstrap_FPs/ bpoFpsCls.BpoFpsCls  [[elisp:(org-cycle)][| ]]
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Cls-basic  [[elisp:(outline-show-subtree+toggle)][||]] /site_RegistrarsContainerPerf_FPs/ bpoFpsCls.BpoFpsCls  [[elisp:(org-cycle)][| ]]
 #+end_org """
-class PlatfSiteBootstrap_FPs(bpoFpsCls.BpoFpsCls):
+class site_RegistrarsContainerPerf_FPs(bpoFpsCls.BpoFpsCls):
 ####+END:
     """
 ** Abstraction of the PalsBase for LiveTargets
@@ -139,11 +141,11 @@ class PlatfSiteBootstrap_FPs(bpoFpsCls.BpoFpsCls):
 ####+END:
             self,
             bpoId: str = "",
-            bpoFpsRelPath: os.PathLike = pathlib.Path("platfSiteBootstrap_fps",),
+            bpoFpsRelPath: os.PathLike = pathlib.Path("registrars/container/perf.fps",),
             fpBase: os.PathLike = pathlib.Path("_null_",),
     ):
         """ #+begin_org
-** fpBase is used with getattr of bpoFpsRelPath is a specific repo -- platfSiteBootstrap_fps
+** fpBase is used with getattr of bpoFpsRelPath is a specific repo -- site_registrarsContainerPerf_fps
         #+end_org """
 
         if fpBase != pathlib.Path("_null_"):
@@ -165,60 +167,11 @@ class PlatfSiteBootstrap_FPs(bpoFpsCls.BpoFpsCls):
         """Conrete - staticmethod: takes in csParms and augments it with fileParams. returns csParams."""
         # return csParams
         csParams.parDictAdd(
-            parName='platfSiteBootstrap_acct',
+            parName='site_registrarsContainerPerf_regContainersBpoId',
             parDescription="",
-            fileParName="acct",
-            fileParInit="bystar",
-            parDataType=None,
-            parDefault=None,
-            parChoices=list(),
-            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-            argparseShortOpt=None,
-            argparseLongOpt='--platfSiteBootstrap_acct',
-        )
-        csParams.parDictAdd(
-            parName='platfSiteBootstrap_bootstrapSitePath',
-            parDescription="",
-            fileParInit="/bxo/iso/pis_defaultSite",
-            parDataType=None,
-            parDefault=None,
-            parChoices=list(),
-            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-            argparseShortOpt=None,
-            argparseLongOpt='--platfSiteBootstrap_bootstrapSitePath',
-        )
-        csParams.parDictAdd(
-            parName='platfSiteBootstrap_keys',
-            parDescription="",
-            fileParInit="NOTYET",
-            parDataType=None,
-            parDefault=None,
-            parChoices=list(),
-            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-            argparseShortOpt=None,
-            argparseLongOpt='--platfSiteBootstrap_keys',
-        )
-        csParams.parDictAdd(
-            parName='platfSiteBootstrap_nameOrIpAddr',
-            parDescription="",
-            fileParInit="192.168.121.1",
-            parDataType=None,
-            parDefault=None,
-            parChoices=list(),
-            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-            argparseShortOpt=None,
-            argparseLongOpt='--platfSiteBootstrap_nameOrIpAddr',
-        )
-        csParams.parDictAdd(
-            parName='platfSiteBootstrap_passwd',
-            parDescription="",
-            fileParInit="default",
-            parDataType=None,
-            parDefault=None,
-            parChoices=list(),
-            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
-            argparseShortOpt=None,
-            argparseLongOpt='--platfSiteBootstrap_passwd',
+            fileParName="regContainersBpoId",
+            fileParInit="unSetBpoId",
+            argparseLongOpt='--site_registrarsContainerPerf_regContainersBpoId',
         )
         return csParams
 
@@ -232,7 +185,7 @@ class PlatfSiteBootstrap_FPs(bpoFpsCls.BpoFpsCls):
     ):
         """ ConcreteMethod based on abstract pattern
         """
-        self._cmndParPrefix = "platfSiteBootstrap_"
+        self._cmndParPrefix = "site_registrarsContainerPerf_"
         csParams = cs.G.icmParamDictGet()
         self._manifestDict = {}
         paramsList = []
@@ -272,10 +225,10 @@ def examples_csu(
     # literal = cs.examples.execInsert
 
     if csName == '':
-        cs.examples.menuChapter('=Get and  Set Parameters=')
+        cs.examples.menuChapter('=Get and Set Parameters=')
 
     siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
-    bpoFps = PlatfSiteBootstrap_FPs(bpoId=str(siteBpoId))
+    bpoFps = site_RegistrarsContainerPerf_FPs(bpoId=str(siteBpoId))
     fpBase  = bpoFps.basePath_obtain()
     fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
     argChoices = fileParsDict.keys()
@@ -288,12 +241,12 @@ def examples_csu(
     if csName:
         cmnd('bpoFpsFullReport', csName=csName, comment=" # Produce a full report")
 
+
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "CmndSvc" :anchor ""  :extraInfo "Command Services Section"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*     [[elisp:(outline-show-subtree+toggle)][| _Invoker Only CmndSvc_: |]]  Command Services Section  [[elisp:(org-shifttab)][<)]] E|
 #+end_org """
 ####+END:
-
 
 ####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "bpoFpsFullReport" :comment "" :extent "verify" :ro "noCli" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
 """ #+begin_org
@@ -325,7 +278,7 @@ class bpoFpsFullReport(cs.Cmnd):
         bpoFps_csu.bpoFpsClsFullReport().pyCmnd(
             rtInv=rtInv,
             bpoId=siteBpoId,
-            cls="PlatfSiteBootstrap_FPs"
+            cls="site_RegistrarsContainerPerf_FPs"
         )
 
         return cmndOutcome
@@ -367,16 +320,13 @@ class parGet(cs.Cmnd):
         if self.justCaptureP(): return cmndOutcome
 
         siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
-        bpoFps = PlatfSiteBootstrap_FPs(bpoId=str(siteBpoId))
+        bpoFps = site_RegistrarsContainerPerf_FPs(bpoId=str(siteBpoId))
 
         fileParamName = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
 
         fileCmndParamName = f"{bpoFps._cmndParPrefix}{fileParamName}"
 
         parValue = bpoFps.fps_getParam(fileCmndParamName)
-
-        if parValue is None:
-            return failed(cmndOutcome)
 
         return cmndOutcome.set(opResults=parValue.parValueGet(),)
 
@@ -394,7 +344,7 @@ class parGet(cs.Cmnd):
         #+end_org """
 
         siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
-        bpoFps = PlatfSiteBootstrap_FPs(bpoId=str(siteBpoId))
+        bpoFps = site_RegistrarsContainerPerf_FPs(bpoId=str(siteBpoId))
         fpBase  = bpoFps.basePath_obtain()
         fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
         argChoices = fileParsDict.keys()
@@ -444,7 +394,7 @@ class parSet(cs.Cmnd):
         if self.justCaptureP(): return cmndOutcome
 
         siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
-        bpoFps = PlatfSiteBootstrap_FPs(bpoId=str(siteBpoId))
+        bpoFps = site_RegistrarsContainerPerf_FPs(bpoId=str(siteBpoId))
 
         fileParamName = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
         fileParamValue = self.cmndArgsGet("1", cmndArgsSpecDict, argsList)
@@ -469,7 +419,7 @@ class parSet(cs.Cmnd):
         #+end_org """
 
         siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
-        bpoFps = PlatfSiteBootstrap_FPs(bpoId=str(siteBpoId))
+        bpoFps = site_RegistrarsContainerPerf_FPs(bpoId=str(siteBpoId))
         fpBase  = bpoFps.basePath_obtain()
         fileParsDict = b.fp_csu.fpBaseParsGetAsDictValue().pyCmnd(fpBase=fpBase).results
         argChoices = fileParsDict.keys()

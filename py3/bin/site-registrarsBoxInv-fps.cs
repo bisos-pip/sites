@@ -105,11 +105,11 @@ from bisos.currents import currentsConfig
    ;; "bisos.bpo.bpoRunBases"
    "bisos.b.fpCls"              ;; param fpBase
    "bisos.b.clsMethod_csu"      ;; param cls
-   "bisos.sites.platfSiteBootstrap_fps"
+   "bisos.sites.site_registrarsBoxInv_fps"
  ))
 #+END_SRC
 #+RESULTS:
-| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap_fps |
+| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.site_registrarsBoxInv_fps |
 #+end_org """
 
 ####+BEGIN: b:py3:cs:framework/csuListProc :pyImports t :csuImports t :csuParams t
@@ -124,10 +124,10 @@ from bisos.bpo import bpo
 from bisos.bpo import bpoFps_csu
 from bisos.b import fpCls
 from bisos.b import clsMethod_csu
-from bisos.sites import platfSiteBootstrap_fps
+from bisos.sites import site_registrarsBoxInv_fps
 
 
-csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap_fps', ]
+csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.site_registrarsBoxInv_fps', ]
 
 g_importedCmndsModules = cs.csuList_importedModules(csuList)
 
@@ -138,12 +138,12 @@ def g_extraParams():
 
 ####+END:
 
-####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs")
+####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("site_registrarsBoxInv_fps.site_RegistrarsBoxInv_FPs")
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /1/ in Classes List
 #+end_org """
 
-PlatfSiteBootstrap_FPs = platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs # exec/eval-ed as __main__.ClassName
+site_RegistrarsBoxInv_FPs = site_registrarsBoxInv_fps.site_RegistrarsBoxInv_FPs # exec/eval-ed as __main__.ClassName
 
 ####+END:
 
@@ -194,9 +194,9 @@ class examples(cs.Cmnd):
 
         bleep.examples_csBasic()
 
-        platfSiteBootstrap_fps.examples_csu()
+        site_registrarsBoxInv_fps.examples_csu()
 
-        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSiteBootstrap_FPs')
+        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='site_RegistrarsBoxInv_FPs')
 
         b.niche.examplesNicheRun("usageEnvs")
 

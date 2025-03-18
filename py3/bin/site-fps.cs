@@ -105,16 +105,20 @@ from bisos.currents import currentsConfig
    ;; "bisos.bpo.bpoRunBases"
    "bisos.b.fpCls"              ;; param fpBase
    "bisos.b.clsMethod_csu"      ;; param cls
+   "bisos.sites.site_registrarsBoxInv_fps"
+   "bisos.sites.site_registrarsBoxPerf_fps"
+   "bisos.sites.site_registrarsContainerInv_fps"
+   "bisos.sites.site_registrarsContainerPerf_fps"
    "bisos.sites.platfSiteBootstrap_fps"
  ))
 #+END_SRC
 #+RESULTS:
-| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.platfSiteBootstrap_fps |
+| bisos.b.cs.ro | bisos.csPlayer.bleep | bisos.b.fp_csu | bisos.bpo.bpo | bisos.bpo.bpoFps_csu | bisos.b.fpCls | bisos.b.clsMethod_csu | bisos.sites.site_registrarsBoxInv_fps | bisos.sites.site_registrarsBoxPerf_fps | bisos.sites.site_registrarsContainerInv_fps | bisos.sites.site_registrarsContainerPerf_fps | bisos.sites.platfSiteBootstrap_fps |
 #+end_org """
 
 ####+BEGIN: b:py3:cs:framework/csuListProc :pyImports t :csuImports t :csuParams t
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /8/ in csuList pyImports=t csuImports=t csuParams=t
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] =Process CSU List= with /12/ in csuList pyImports=t csuImports=t csuParams=t
 #+end_org """
 
 from bisos.b.cs import ro
@@ -124,10 +128,14 @@ from bisos.bpo import bpo
 from bisos.bpo import bpoFps_csu
 from bisos.b import fpCls
 from bisos.b import clsMethod_csu
+from bisos.sites import site_registrarsBoxInv_fps
+from bisos.sites import site_registrarsBoxPerf_fps
+from bisos.sites import site_registrarsContainerInv_fps
+from bisos.sites import site_registrarsContainerPerf_fps
 from bisos.sites import platfSiteBootstrap_fps
 
 
-csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.platfSiteBootstrap_fps', ]
+csuList = [ 'bisos.b.cs.ro', 'bisos.csPlayer.bleep', 'bisos.b.fp_csu', 'bisos.bpo.bpo', 'bisos.bpo.bpoFps_csu', 'bisos.b.fpCls', 'bisos.b.clsMethod_csu', 'bisos.sites.site_registrarsBoxInv_fps', 'bisos.sites.site_registrarsBoxPerf_fps', 'bisos.sites.site_registrarsContainerInv_fps', 'bisos.sites.site_registrarsContainerPerf_fps', 'bisos.sites.platfSiteBootstrap_fps', ]
 
 g_importedCmndsModules = cs.csuList_importedModules(csuList)
 
@@ -138,12 +146,15 @@ def g_extraParams():
 
 ####+END:
 
-####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs")
+####+BEGIN: b:py3:cs:main/exposedSymbols :classes ("site_registrarsBoxInv_fps.site_RegistrarsBoxInv_FPs" "site_registrarsBoxPerf_fps.site_RegistrarsBoxPerf_FPs" "site_registrarsContainerInv_fps.site_RegistrarsContainerInv_FPs" "site_registrarsContainerPerf_fps.site_RegistrarsContainerPerf_FPs")
 """ #+begin_org
-*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /1/ in Classes List
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CsFrmWrk   [[elisp:(outline-show-subtree+toggle)][||]] ~CS Controls and Exposed Symbols List Specification~ with /4/ in Classes List
 #+end_org """
 
-PlatfSiteBootstrap_FPs = platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs # exec/eval-ed as __main__.ClassName
+site_RegistrarsBoxInv_FPs = site_registrarsBoxInv_fps.site_RegistrarsBoxInv_FPs # exec/eval-ed as __main__.ClassName
+site_RegistrarsBoxPerf_FPs = site_registrarsBoxPerf_fps.site_RegistrarsBoxPerf_FPs # exec/eval-ed as __main__.ClassName
+site_RegistrarsContainerInv_FPs = site_registrarsContainerInv_fps.site_RegistrarsContainerInv_FPs # exec/eval-ed as __main__.ClassName
+site_RegistrarsContainerPerf_FPs = site_registrarsContainerPerf_fps.site_RegistrarsContainerPerf_FPs # exec/eval-ed as __main__.ClassName
 
 ####+END:
 
@@ -154,6 +165,14 @@ PlatfSiteBootstrap_FPs = platfSiteBootstrap_fps.PlatfSiteBootstrap_FPs # exec/ev
 ####+END:
 
 cs.invOutcomeReportControl(cmnd=True,)
+
+fpCsmusList = [
+    {"platfSiteBootstrap-fps.cs": platfSiteBootstrap_fps},
+    {"site-registrarsBoxInv-fps.cs": site_registrarsBoxInv_fps},
+    {"site-registrarsBoxPerf-fps.cs": site_registrarsBoxPerf_fps},
+    {"site-registrarsContainerInv-fps.cs": site_registrarsContainerInv_fps},
+    {"site-registrarsContainerPerf-fps.cs": site_registrarsContainerPerf_fps},
+]
 
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 1 :title "CmndSvc-s" :extraInfo "class someCommand(cs.Cmnd)"
@@ -194,13 +213,64 @@ class examples(cs.Cmnd):
 
         bleep.examples_csBasic()
 
-        platfSiteBootstrap_fps.examples_csu()
 
-        bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='PlatfSiteBootstrap_FPs')
+        for eachCsmu in fpCsmusList:
+            for key, value in eachCsmu.items():
+                cs.examples.menuPart(f'={key}=  Get and Set Parameters')
+                print(f"{key}")
+                value.examples_csu(csName=key)
 
-        b.niche.examplesNicheRun("usageEnvs")
+        cs.examples.menuPart(f'=All Site Fps Full Report=')
+
+        cmnd = cs.examples.cmndEnter
+        cmnd('siteFpsAllFullReport',  comment=" # Produce a full report for ALL")
+
+        # site_registrarsBoxInv_fps.examples_csu()
+
+        # bpoFps_csu.examples_csu().pyCmnd(bpoId=siteBpoId, cls='site_RegistrarsBoxInv_FPs')
+
+        # b.niche.examplesNicheRun("usageEnvs")
 
         return(cmndOutcome)
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "siteFpsAllFullReport" :comment "" :extent "verify" :ro "noCli" :parsMand "" :parsOpt "" :argsMin 0 :argsMax 0 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<siteFpsAllFullReport>>  =verify= ro=noCli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class siteFpsAllFullReport(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 0, 'Max': 0,}
+    rtInvConstraints = cs.rtInvoker.RtInvoker.new_noRo() # NO RO From CLI
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, None).isProblematic():
+            return failed(cmndOutcome)
+####+END:
+        if self.cmndDocStr(""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Given one fileParamName, get its value
+        #+end_org """): return(cmndOutcome)
+
+        siteBpoId = bpo.forPathObtainBpoId().pyCmnd(argsList=["/bisos/site"]).results
+
+        for eachCsmu in fpCsmusList:
+            for key, value in eachCsmu.items():
+                clsName = value.__name__
+                print(f"## {key} -- bpoFpsFullReport() ")
+                value.bpoFpsFullReport().pyCmnd(
+                    rtInv=rtInv,
+                )
+
+        return cmndOutcome
+
 
 ####+BEGIN: blee:bxPanel:foldingSection :outLevel 0 :sep nil :title "Main" :anchor ""  :extraInfo "Framework Dblock"
 """ #+begin_org
