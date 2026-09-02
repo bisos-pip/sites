@@ -90,6 +90,7 @@ import collections
 
 from pathlib import Path
 from bisos.bpo import bpo
+from bisos.platform import platformBpo
 from bisos.basics import pathPlus
 
 ####+BEGIN: b:py3:cs:orgItem/section :title "Common Parameters Specification" :comment "based on cs.param.CmndParamDict -- As expected from CSU-s"
@@ -151,10 +152,16 @@ siteManage.sh
         #+end_org """)
         if self.justCaptureP(): return cmndOutcome
 
+        bro_rawBisosSite = "/bisos/git/bxRepos/bxObjects/bro_rawBisos/bro_rawBisosSite"
 
-        #od = collections.OrderedDict
+        od = collections.OrderedDict
         cmnd = cs.examples.cmndEnter
         literal = cs.examples.execInsert
+
+        this_bpoId = platformBpo.platformBpoId()
+
+        if this_bpoId is None:
+            this_bpoId = bro_rawBisosSite
 
         cs.examples.menuChapter('=Sites and Selected Site=')
 
@@ -163,6 +170,11 @@ siteManage.sh
 
         cs.examples.menuSection('=Site Base -- /bisos/var/sites/selected -- /bisos/site=')
 
+        cmnd('siteBase', pars=od([('bpoId', this_bpoId),]), args="update")
+        if this_bpoId != bro_rawBisosSite:
+            cmnd('siteBase', pars=od([('bpoId', bro_rawBisosSite),]), args="update", comment=f"# Set at rawBisos Construction")
+
+        cmnd('siteBase', args="obtain")
         cmnd('siteBase', args="obtain", comment=f"| xargs ls -l  # Show the symlink")
         cmnd('siteBase', args="obtain", comment=f"| xargs realpath  # Show the symlink")
 
