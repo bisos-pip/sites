@@ -210,6 +210,17 @@ class PlatfSiteBootstrap_FPs(bpoFpsCls.BpoFpsCls):
             argparseLongOpt='--platfSiteBootstrap_nameOrIpAddr',
         )
         csParams.parDictAdd(
+            parName='platfSiteBootstrap_nameOrIpAddrForBox',
+            parDescription="",
+            fileParInit="192.168.0.153",
+            parDataType=None,
+            parDefault=None,
+            parChoices=list(),
+            #parScope=icm.ICM_ParamScope.TargetParam,  # type: ignore
+            argparseShortOpt=None,
+            argparseLongOpt='--platfSiteBootstrap_nameOrIpAddrForBox',
+        )
+        csParams.parDictAdd(
             parName='platfSiteBootstrap_passwd',
             parDescription="",
             fileParInit="default",

@@ -1,0 +1,197 @@
+#+title: Work Plan
+#+DATE: <2026-06-10 Wed 13:54>
+#+AUTHOR: Mohsen BANAN
+#+OPTIONS: toc:4
+#+TAGS: me ai aiAndMe
+
+# Provenance (installed once by aiActivity.cs --- not regenerated):
+#   Date:      2026-09-02T10:27:54-07:00
+#   User:      bystar
+#   Templates: /bisos/apps/defaults/ai-templates
+#   Command:   /bisos/venv/py3/devbin/aiActivity.cs -i initiate --activity=bisos-pip
+
+####+BEGIN: b:ai:file/particulars
+* AI Working Context
+  Working Directory: /bisos/git/auth/bxRepos/bisos-pip/sites
+  File: /bisos/git/auth/bxRepos/bisos-pip/sites/AI-WorkPlan.org
+  Activity: bisos-pip
+  Companion Docs: AI-WORKFLOW.org, AI-Activity.org, AI-DevStatus.org, README.org
+####+END:
+
+This Work Plan file drives the AI collaborative development.
+Interactions are broken down into "Stages". Each Stage has a set
+of TODOs that I work with Claude to accomplish.
+
+Note to a fresh Claude: read this file together with AI-WORKFLOW.org,
+AI-Activity.org and AI-DevStatus.org to orient yourself. The =<<Context Confirmation>>=
+TODO below is the standard first step, or use =/bx-confirm0= as the automated equivalent.
+TODOs tagged =:ai:= are assigned to Claude. After completing a TODO, summarize results
+under =----- AI Results: ------= and mark it DONE.
+
+* Stage 0: Confirm AI's Understanding of This Repo's Context
+
+Goal: Confirm AI's understanding of the context and capture that in [[Context Confirmation]] TODO.
+
+
+* Stage 0 TODOs
+** +
+** TODO [#A] <<Context Confirmation>> for AI (typically triggered by /bx-confirm0) :aiAndMe:
+SCHEDULED: <2026-06-09 Tue>
+Must be repeated each time a new Claude instance is started here.
+Based on the series of files starting from CLAUDE.md in this repo,
+describe succinctly what you have understood.
+Enumerate explicitly which files you have imported and which you have considered.
+Prompt the user to confirm that the desired/appropriate model (/model) is being used for this project.
+----- AI Results: ------
+** -
+
+* Stage 1: Update Existing Copied Starting Points For bisos.sites
+
+Goal: Modify files that were copied as starting points for bisos.sites.
+
+
+* Stage 1 TODOs
+** +
+** DONE [#A] Update README.org from bisos.capability to bisos.sites :ai:
+SCHEDULED: <2026-09-02 Wed 10:38>
+Do only minor updates. Be quick and brief. We will revisit this after the
+package has been developed. For now it just needs to properly mention that it is bisos.sites
+----- AI Results: ------
+Replaced all =bisos.capability= / =capability= references in README.org with
+=bisos.sites= equivalents: topControls pkgName, panel links, PYPI links,
+Overview paragraph (now describes managing =/bisos/var/sites/siteBpo= and the
+umbrella site services), pkgDocumentation pkgName, Related Resources panel
+link, Installation section (repo URL, pip/pipx install commands), the list of
+installed commands (=sitesManage.cs=, =site-fps.cs=,
+=platfSiteBootstrap-fps.cs=, =platfSitesActivate-fps.cs= — matching py3/bin/),
+"part of BISOS" / "standalone piece of BISOS" / "Documentation and
+Blee-Panels" sections, and the footer =#+CATEGORY:= tag. Did not touch
+=README.rst= (generated file) or other structural content.
+
+----- AI Results (revisit, post Stage-1 completion): ------
+Per user request, gave README.org a fuller pass using the
+=readme-authorship= skill's canonical structure: expanded Overview to
+describe the actual /bisos/var/sites symlink-base + registrar
+responsibilities and the site_lib.sh conversion lineage; added the
+previously-missing "bisos.sites is a Command-Only PyCS Facility" section;
+added a real "Usage" section with working examples for =sitesInfo=,
+=siteBase=, =siteBisosAdd=, =siteBisosSelect=; added a "Key Files" section
+mapping py3/bin and py3/bisos/sites/; added a "Planned Improvements" TODO
+list (live-execution test coverage, symlink-layout diagram, revisit
+platfSiteBootstrap.py's fate); fixed stale =bisoscapability-*= TOC anchors
+left from the earlier quick rename -> now =bisossites-*=; expanded the
+installed-commands list to include the registrar =-fps.cs= binaries.
+=README.rst= untouched (generated file).
+
+
+** DONE [#A] Create a starting point py3/tests/ :aiAndMe:
+SCHEDULED: <2026-09-01 Tue 13:01>
+Again just a starting point. A starting point for sitesManage.cs smoke test is sufficient.
+Don't do any live testing. Changing /bisos/site/ will do damage.
+----- AI Results: ------
+The previously-present =py3/tests/verify.sh= was a leftover copy from
+=bisos.airflow= (referenced non-existent =airflowAdmin.cs=/=quickAirflow.cs=
+and their Cmnds). Rewrote it as a =bisos.sites=-specific starting point:
+- Smoke-runs =sitesManage.cs= (no args), =-i examples=, and =-i sitesInfo=
+  (the sub-Cmnd actually pulled in via =sites_csu= in =sitesManage.cs='s
+  csuList).
+- Examples-only touch (=-i examples=) for the other =*-fps.cs= binaries
+  (=site-fps.cs=, =platfSiteBootstrap-fps.cs=, =platfSitesActivate-fps.cs=,
+  =site-registrarsBoxInv-fps.cs=, =site-registrarsBoxPerf-fps.cs=,
+  =site-registrarsContainerInv-fps.cs=, =site-registrarsContainerPerf-fps.cs=)
+  — no mutating/live Cmnds invoked.
+- Import + class-presence smoke test against =sites_csu.py=, checking for
+  =examples_csu= and =sitesInfo=.
+Note: =sitesInfo= itself only runs read-only =ls= against =/bisos/site= and
+=/bisos/var/sites/*= (per its =captureRunStr= doc) — no writes, so no damage
+risk to the live site setup. No Cmnds were actually executed by me; this is
+file content only, ready for the user to run.
+
+** DONE [#A] Convert from Bash-ICM to PyCS Commands --  /bisos/core/bsip/bin//site_lib.sh :aiAndMe:
+SCHEDULED: <2026-09-01 Tue 13:01>
+Read through everything under:
+- This repo
+- /bxRepos/bisos-pip/platform/
+- Look at how /bisos/site is setup
+  Convert  vis_siteBisosBase, vis_siteBisosAdd, vis_siteBisosSelect of /bisos/core/bsip/bin/site_lib.sh
+  to Cmnds in py3/
+  Add those Cmnds to examples.
+  Look at /bxRepos/bxObjects/bro_rawBisos/bro_rawBisosSite
+  We want to make this become the end of bisos/site symlink
+  Don't run any of the Cmnds.
+----- AI Results: ------
+Research: read =site_lib.sh= (vis_siteBisosBase/Add/Select, using ICM's
+=FN_fileSymlinkUpdate=/=FN_absolutePathGet=); confirmed live setup
+(=/bisos/site -> /bisos/var/sites/selected -> <siteBxoId's bpo dir>=);
+=bro_rawBisosSite='s =sys/bin/broSysSetup.sh= turned out to be an unrelated
+stale copy of =lpCurrentsAdmin.sh=, not useful. Found that
+=bisos-pip/platform/py3/bisos/platform/platformBases_csu.py= already has a
+=siteBase= Cmnd covering this ground but explicitly marked
+"NOTYET, Incomplete -- Selected itself needs to be updated based on bpoId".
+
+Per user direction, decided to *fully separate* platform from sites:
+=platfSiteBootstrap.py= is ignored (left as a stub, out of scope); all new
+Cmnds were added to =py3/bisos/sites/sites_csu.py= (the module actually
+loaded by =sitesManage.cs='s csuList); the site-related portion of
+=platform.platformBases_csu.py= (=siteBase=) was *copied* (not moved) into
+=sites_csu.py= -- =bisos.platform='s own copy is left untouched/unmodified.
+
+Added to =sites_csu.py=:
+- =siteBisosBase()= function -- returns =Path("/bisos/var/sites")=
+  (from =vis_siteBisosBase=).
+- =siteBase= Cmnd (copied from platform) -- =update=/=obtain= actions for
+  =/bisos/var/sites/selected= <-> =/bisos/site=; unlike the platform
+  original, its =update= action now delegates to =siteBisosSelect=, which
+  *does* perform bpoId-specific re-pointing -- resolving the "NOTYET"
+  incompleteness here in =bisos.sites=.
+- =siteBisosAdd= Cmnd (from =vis_siteBisosAdd=) -- 1 mandatory =siteBxoId=
+  arg; resolves via =bpo.bpoBaseDir_obtain()= and
+  =pathPlus.symlink_update()= to create/update
+  =/bisos/var/sites/<siteBxoId>=.
+- =siteBisosSelect= Cmnd (from =vis_siteBisosSelect=) -- same resolution,
+  targets =/bisos/var/sites/selected=.
+- New imports: =pathlib.Path=, =bisos.bpo.bpo=, =bisos.basics.pathPlus=.
+- Wired =siteBase=, =siteBisosAdd=, =siteBisosSelect= into
+  =examples_csu()= under new menu sections.
+
+Verified the edited =sites_csu.py= parses (=ast.parse=). No Cmnds were
+executed. =py3/tests/verify.sh= (from the prior TODO) already exercises
+=sites_csu.py='s import/class-presence for =sitesInfo=/=examples_csu= but
+does not yet check the three new Cmnds -- left as a follow-on since the
+user said not to run anything live in this TODO.
+
+
+** DONE [#A] Based on the above Write a SKILL for Bash-ICM to PyCS Conversion :aiAndMe:
+SCHEDULED: <2026-09-01 Tue 13:01>
+So that a new instance of you or Claude can use it.
+----- AI Results: ------
+Confirmed this is worth doing (55+ =*_lib.sh= Bash-ICM libraries remain
+under =/bisos/core/bsip/bin/=, so the conversion pattern will recur).
+Created =.claude/skills/icm-to-pycs-conversion/SKILL.md= in the real
+Claude-Skill format (YAML frontmatter =name=/=description= + Markdown
+body), matching the style of sibling skills. Contents: how to recognize a
+Bash-ICM library (=vis_*=, =G_funcEntry=, =EH_assert=, =FN_*=, =lpDo=,
+end-of-file dblock); an idiom mapping table (=FN_absolutePathGet= ->
+=bpo.bpoBaseDir_obtain=, =FN_fileSymlinkUpdate= -> =pathPlus.symlink_update=,
+=EH_assert [[ $# -eq N ]]= -> =cmndArgsLen=/=cmndArgsSpec=, =lpDo= -> direct
+call via =cs.track=, =echo <val>= -> =cmndOutcome.set(opResults=...)=,
+cross-Cmnd calls -> =.pyCmnd(argsList=[...])=); guidance on picking the
+correct target =_csu.py= by tracing a =.cs= binary's =csuList= (not just
+picking the first plausible file); the copy-vs-move rule for when another
+pip package has overlapping code (copy by default, complete any "NOTYET" in
+the copy, leave the original untouched); the don't-run-Cmnds discipline
+(still do =ast.parse= and wire into =examples_csu()=); and a worked-example
+pointer to this session's =bisos.sites.sites_csu= conversion. Registered it
+in =AI-Activity.org='s "Available Skills" table. Cross-references
+=writing-cs-commands= (for the =cs.Cmnd= class shape) and
+=comeega-authorship= (for why none of the Bash-ICM dblock/EH/FN machinery
+is preserved verbatim).
+
+
+** -
+
+
+# Local Variables:
+# eval: (setq-local toc-org-max-depth 4)
+# eval: (setq-local org-log-done 'time)
+# End:

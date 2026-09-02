@@ -1,0 +1,112 @@
+#+title: Development Status & Continuation Handoff
+#+TAGS: me ai aiAndMe
+
+# Provenance (installed once by aiActivity.cs --- not regenerated):
+#   Date:      2026-09-02T10:27:54-07:00
+#   User:      bystar
+#   Templates: /bisos/apps/defaults/ai-templates
+#   Command:   /bisos/venv/py3/devbin/aiActivity.cs -i initiate --activity=bisos-pip
+
+####+BEGIN: b:ai:file/particulars
+* AI Working Context
+  Working Directory: /bisos/git/auth/bxRepos/bisos-pip/sites
+  File: /bisos/git/auth/bxRepos/bisos-pip/sites/AI-DevStatus.org
+  Activity: bisos-pip
+  Companion Docs: AI-WORKFLOW.org, AI-Activity.org, AI-DevStatus.org, README.org
+####+END:
+
+This file is a working-state handoff so development can continue on another
+machine (which has this repo but NOT the developer's =~=). It captures the
+architecture, what works, what is untested and the design decisions made so far.
+
+This file is maintained by Claude. Updates are typically triggered by the
+=/bx-update-status= slash command, after major interactions, or before a release.
+
+Note to a fresh Claude: this file is intentionally sparse at project start.
+Fill in the sections below when asked to update, following the structure provided.
+
+* Current State
+  Stage 1 of AI-WorkPlan.org is complete (all 4 TODOs DONE):
+  1. README.org updated from bisos.capability wording to bisos.sites.
+  2. py3/tests/verify.sh rewritten (was a stale bisos.airflow copy) into a
+     bisos.sites-specific smoke test.
+  3. site_lib.sh's vis_siteBisosBase/Add/Select converted to PyCS Cmnds in
+     py3/bisos/sites/sites_csu.py.
+  4. New .claude/skills/icm-to-pycs-conversion/SKILL.md written and
+     registered in AI-Activity.org.
+
+  Stage 2 has not yet been defined in AI-WorkPlan.org. No Cmnds have been
+  executed against the live system this session -- all work is
+  file-content-only, verified with ast.parse, not live execution.
+
+* Architecture
+  - Package: bisos.sites (py3/bisos/sites/). Manages /bisos/var/sites/siteBpo
+    and the /bisos/site symlink chain, plus umbrella site services.
+  - Live symlink chain (as found on this host, read-only verified):
+    /bisos/site -> /bisos/var/sites/selected -> <siteBxoId's bpo base dir>
+    (currently -> /bxo/r3/iso/pis_superSiteNeda).
+  - CS binaries (py3/bin/): sitesManage.cs (csuList = bisos.b.cs.ro,
+    bisos.csPlayer.bleep, bisos.sites.sites_csu -- this is the module that
+    matters), site-fps.cs, platfSiteBootstrap-fps.cs,
+    platfSitesActivate-fps.cs, site-registrarsBox{Inv,Perf}-fps.cs,
+    site-registrarsContainer{Inv,Perf}-fps.cs.
+  - py3/bisos/sites/sites_csu.py Cmnds:
+    - examples_csu, sitesInfo (pre-existing)
+    - siteBisosBase() (function) -- /bisos/var/sites base path
+    - siteBase -- update/obtain for /bisos/var/sites/selected <-> /bisos/site;
+      update delegates to siteBisosSelect (copied from bisos.platform's
+      platformBases_csu.siteBase, whose own "NOTYET, Incomplete" update
+      action is resolved here, not there -- bisos.platform's copy is
+      untouched)
+    - siteBisosAdd <siteBxoId> -- creates /bisos/var/sites/<siteBxoId>
+    - siteBisosSelect <siteBxoId> -- updates /bisos/var/sites/selected
+    Uses bpo.bpoBaseDir_obtain() (bisos.bpo) and pathPlus.symlink_update()
+    (bisos.basics) -- the PyCS equivalents of site_lib.sh's
+    FN_absolutePathGet/FN_fileSymlinkUpdate.
+  - platfSiteBootstrap.py exists but is intentionally out of scope/ignored
+    for this work (a stub with one hardcoded Cmnd, platfSiteBootstrap_primaryBpo).
+  - py3/tests/verify.sh -- smoke test: sitesManage.cs (bare, -i examples,
+    -i sitesInfo), examples-only touch of the other *-fps.cs binaries, and
+    an import/class-presence check of sites_csu.py (examples_csu, sitesInfo
+    -- NOT yet updated to check siteBase/siteBisosAdd/siteBisosSelect).
+
+* What Works
+  - README.org and verify.sh content updates -- static/text only, not
+    executed against anything live.
+  - sites_csu.py edits verified via `python3 -c "import ast; ast.parse(...)"`
+    (syntax only -- not import-tested against the real bisos.b/bisos.bpo/
+    bisos.basics packages, and not executed).
+
+* What Is Untested
+  - The new siteBase/siteBisosAdd/siteBisosSelect Cmnds have NEVER been run
+    (by design -- user explicitly said not to, since it risks damaging the
+    live /bisos/site setup). Needs real invocation testing (e.g. against a
+    throwaway siteBxoId) before being trusted.
+  - py3/tests/verify.sh has not been executed this session (also by design).
+    Its import/class-presence check does not yet cover the three new Cmnds.
+  - No verification that `from bisos.bpo import bpo` and
+    `from bisos.basics import pathPlus` actually resolve in the active venv
+    (bisos-pip editable installs) -- only syntax-checked, not imported.
+
+* Key Design Decisions
+  - Platform/sites separation: bisos.platform and bisos.sites are being
+    deliberately decoupled. Where overlap existed (platformBases_csu.py's
+    siteBase), the code was *copied* into sites_csu.py, not moved -- the
+    platform package's copy is left untouched/unmodified, out of scope.
+  - bisos.sites.sites_csu is now the single, complete owner of
+    /bisos/var/sites and /bisos/site symlink management going forward;
+    bisos.platform's siteBase is legacy/parallel and known-incomplete.
+  - platfSiteBootstrap.py was explicitly excluded as a target for the
+    site_lib.sh conversion (per user direction) -- do not add site-symlink
+    Cmnds there.
+  - A new skill, icm-to-pycs-conversion, documents the general Bash-ICM ->
+    PyCS mapping (vis_* -> cs.Cmnd, FN_fileSymlinkUpdate ->
+    pathPlus.symlink_update, FN_absolutePathGet -> bpo.bpoBaseDir_obtain,
+    etc.) since ~55 more *_lib.sh files remain under
+    /bisos/core/bsip/bin/ as candidates for future conversion.
+
+  [Non-obvious choices and their rationale]
+
+# Local Variables:
+# eval: (setq-local toc-org-max-depth 4)
+# End:

@@ -88,6 +88,10 @@ from bisos.common import csParam
 import collections
 ####+END:
 
+from pathlib import Path
+from bisos.bpo import bpo
+from bisos.basics import pathPlus
+
 ####+BEGIN: b:py3:cs:orgItem/section :title "Common Parameters Specification" :comment "based on cs.param.CmndParamDict -- As expected from CSU-s"
 """ #+begin_org
 *  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Common Parameters Specification* based on cs.param.CmndParamDict -- As expected from CSU-s  [[elisp:(org-cycle)][| ]]
@@ -157,6 +161,16 @@ siteManage.sh
         cmnd('sitesInfo', comment=" # Sites Information")
         # cmnd('cmdbSummary', pars=perfNamePars, comment=" # remote obtain facter data, use it to summarize for cmdb")
 
+        cs.examples.menuSection('=Site Base -- /bisos/var/sites/selected -- /bisos/site=')
+
+        cmnd('siteBase', args="obtain", comment=f"| xargs ls -l  # Show the symlink")
+        cmnd('siteBase', args="obtain", comment=f"| xargs realpath  # Show the symlink")
+
+        cs.examples.menuSection('=Site Bisos Add/Select -- Converted From site_lib.sh=')
+
+        cmnd('siteBisosAdd', args="pis_exampleSite", comment=f"# vis_siteBisosAdd -- create /bisos/var/sites/<siteBxoId>")
+        cmnd('siteBisosSelect', args="pis_exampleSite", comment=f"# vis_siteBisosSelect -- update /bisos/var/sites/selected")
+
         cs.examples.menuSection('=Related BASH Scripts=')
 
         literal("siteManage.sh")
@@ -224,6 +238,226 @@ ls -l /bisos/var/sites/selected
 
         result="Review the Above File Listings"
         return cmndOutcome.set(opResults=result,)
+
+
+####+BEGIN: b:py3:cs:orgItem/section :title "Site Bisos Base -- Converted From /bisos/core/bsip/bin/site_lib.sh" :comment "vis_siteBisosBase, vis_siteBisosAdd, vis_siteBisosSelect"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  /Section/    [[elisp:(outline-show-subtree+toggle)][||]] *Site Bisos Base* -- Converted From /bisos/core/bsip/bin/site_lib.sh -- vis_siteBisosBase, vis_siteBisosAdd, vis_siteBisosSelect  [[elisp:(org-cycle)][| ]]
+
+NOTE :: The =siteBase= Cmnd below is a *copy* (not a move) of =bisos.platform='s
+=platformBases_csu.siteBase=, brought here so that =bisos.sites= becomes the
+single, complete owner of site-symlink management. Unlike the platform copy
+(marked "NOTYET, Incomplete -- Selected itself needs to be updated based on
+bpoId"), this version's =update= action delegates to =siteBisosSelect=, which
+does perform the bpoId-specific re-pointing -- resolving that gap here.
+=bisos.platform='s own copy is intentionally left as-is (out of scope for
+this repo).
+#+end_org """
+####+END:
+
+
+####+BEGIN: b:py3:cs:func/typing :funcName "siteBisosBase" :funcType "extTyped" :deco "track"
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  F-T-extTyped [[elisp:(outline-show-subtree+toggle)][||]] /siteBisosBase/  deco=track  [[elisp:(org-cycle)][| ]]
+#+end_org """
+@cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+def siteBisosBase(
+####+END:
+) -> Path:
+    """ #+begin_org
+** [[elisp:(org-cycle)][| *DocStr | ]  Converted from site_lib.sh's vis_siteBisosBase. Base dir under which
+per-site and =selected= symlinks live.
+    #+end_org """
+
+    return Path("/bisos/var/sites")
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "siteBase" :comment "" :extent "verify" :ro "cli" :parsMand "" :parsOpt "bpoId" :argsMin 1 :argsMax 1 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<siteBase>>  =verify= parsOpt=bpoId argsMin=1 argsMax=1 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class siteBase(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ 'bpoId', ]
+    cmndArgsLen = {'Min': 1, 'Max': 1,}
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             bpoId: typing.Optional[str]=None,  # Cs Optional Param
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {'bpoId': bpoId, }
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+        bpoId = csParam.mappedValue('bpoId', bpoId)
+####+END:
+        if self.cmndDocStr(f""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  With bpoId update or obtain /bisos/var/sites/selected and /bisos/site.
+*** Copied from bisos.platform.platformBases_csu.siteBase; update delegates to
+    siteBisosSelect so bpoId-specific re-pointing actually happens here.
+        #+end_org """): return(cmndOutcome)
+
+        action = self.cmndArgsGet("0&1", cmndArgsSpecDict, argsList)[0]
+
+        if action == "update":
+            if not bpoId:
+                return failed(cmndOutcome)
+            return siteBisosSelect().pyCmnd(argsList=[bpoId])
+
+        elif action == "obtain":
+            return cmndOutcome.set(opResults=Path("/bisos/site"))
+
+        else:
+            return failed(cmndOutcome)
+
+
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
+####+END:
+        """
+***** Cmnd Args Specification
+"""
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0&1",
+            argName="action",
+            argDefault='',
+            argChoices=['update', 'obtain'],
+            argDescription="One argument, as action"
+        )
+        return cmndArgsSpecDict
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "siteBisosAdd" :comment "" :extent "verify" :ro "cli" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<siteBisosAdd>>  =verify= argsMin=1 argsMax=1 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class siteBisosAdd(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 1, 'Max': 1,}
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+####+END:
+        if self.cmndDocStr(f""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Converted from site_lib.sh's vis_siteBisosAdd. With siteBxoId,
+create/update /bisos/var/sites/<siteBxoId> to point at that site's bpo base dir.
+        #+end_org """): return(cmndOutcome)
+
+        siteBxoId = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
+
+        bpoBaseDir = bpo.bpoBaseDir_obtain(siteBxoId)
+        bpoBasePath = Path(bpoBaseDir)
+
+        sitesBase = siteBisosBase()
+        sitesBase.mkdir(parents=True, exist_ok=True)
+
+        pathPlus.symlink_update(bpoBasePath, sitesBase.joinpath(siteBxoId))
+
+        return cmndOutcome.set(opResults=str(sitesBase.joinpath(siteBxoId)))
+
+
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
+####+END:
+        """
+***** Cmnd Args Specification
+"""
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0",
+            argName="siteBxoId",
+            argDefault='',
+            argChoices=[],
+            argDescription="siteBxoId to be added under /bisos/var/sites/"
+        )
+        return cmndArgsSpecDict
+
+
+####+BEGIN: b:py3:cs:cmnd/classHead :cmndName "siteBisosSelect" :comment "" :extent "verify" :ro "cli" :parsMand "" :parsOpt "" :argsMin 1 :argsMax 1 :pyInv ""
+""" #+begin_org
+*  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  CmndSvc-   [[elisp:(outline-show-subtree+toggle)][||]] <<siteBisosSelect>>  =verify= argsMin=1 argsMax=1 ro=cli   [[elisp:(org-cycle)][| ]]
+#+end_org """
+class siteBisosSelect(cs.Cmnd):
+    cmndParamsMandatory = [ ]
+    cmndParamsOptional = [ ]
+    cmndArgsLen = {'Min': 1, 'Max': 1,}
+
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmnd(self,
+             rtInv: cs.RtInvoker,
+             cmndOutcome: b.op.Outcome,
+             argsList: typing.Optional[list[str]]=None,  # CsArgs
+    ) -> b.op.Outcome:
+
+        failed = b_io.eh.badOutcome
+        callParamsDict = {}
+        if self.invocationValidate(rtInv, cmndOutcome, callParamsDict, argsList).isProblematic():
+            return failed(cmndOutcome)
+        cmndArgsSpecDict = self.cmndArgsSpec()
+####+END:
+        if self.cmndDocStr(f""" #+begin_org
+** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  Converted from site_lib.sh's vis_siteBisosSelect. With siteBxoId,
+update /bisos/var/sites/selected to point at that site's bpo base dir --
+this is what /bisos/site ultimately resolves through.
+        #+end_org """): return(cmndOutcome)
+
+        siteBxoId = self.cmndArgsGet("0", cmndArgsSpecDict, argsList)
+
+        bpoBaseDir = bpo.bpoBaseDir_obtain(siteBxoId)
+        bpoBasePath = Path(bpoBaseDir)
+
+        sitesBase = siteBisosBase()
+        sitesBase.mkdir(parents=True, exist_ok=True)
+
+        pathPlus.symlink_update(bpoBasePath, sitesBase.joinpath("selected"))
+
+        return cmndOutcome.set(opResults=str(sitesBase.joinpath("selected")))
+
+
+####+BEGIN: b:py3:cs:method/args :methodName "cmndArgsSpec" :methodType "anyOrNone" :retType "bool" :deco "default" :argsList "self"
+    """ #+begin_org
+**  _[[elisp:(blee:menu-sel:outline:popupMenu)][±]]_ _[[elisp:(blee:menu-sel:navigation:popupMenu)][Ξ]]_ [[elisp:(outline-show-branches+toggle)][|=]] [[elisp:(bx:orgm:indirectBufOther)][|>]] *[[elisp:(blee:ppmm:org-mode-toggle)][|N]]*  Mtd-T-anyOrNone [[elisp:(outline-show-subtree+toggle)][||]] /cmndArgsSpec/ deco=default  deco=default  [[elisp:(org-cycle)][| ]]
+#+end_org """
+    @cs.track(fnLoc=True, fnEntry=True, fnExit=True)
+    def cmndArgsSpec(self, ):
+####+END:
+        """
+***** Cmnd Args Specification
+"""
+        cmndArgsSpecDict = cs.CmndArgsSpecDict()
+        cmndArgsSpecDict.argsDictAdd(
+            argPosition="0",
+            argName="siteBxoId",
+            argDefault='',
+            argChoices=[],
+            argDescription="siteBxoId to become the /bisos/var/sites/selected target"
+        )
+        return cmndArgsSpecDict
 
 
 ####+BEGIN: b:py3:cs:framework/endOfFile :basedOn "classification"
