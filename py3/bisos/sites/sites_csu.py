@@ -311,7 +311,12 @@ class siteBase(cs.Cmnd):
         if self.cmndDocStr(f""" #+begin_org
 ** [[elisp:(org-cycle)][| *CmndDesc:* | ]]  With bpoId update or obtain /bisos/var/sites/selected and /bisos/site.
 *** Copied from bisos.platform.platformBases_csu.siteBase; update delegates to
-    siteBisosSelect so bpoId-specific re-pointing actually happens here.
+    siteBisosSelect so bpoId-specific re-pointing actually happens here, and
+    additionally ensures /bisos/site itself is symlinked to
+    /bisos/var/sites/selected (siteBisosSelect only updates =selected=,
+    matching vis_siteBisosSelect's original semantics -- the /bisos/site
+    re-link is siteBase's own responsibility, mirroring how
+    bisos.platform's siteBase re-links /bisos/platform).
         #+end_org """): return(cmndOutcome)
 
         action = self.cmndArgsGet("0&1", cmndArgsSpecDict, argsList)[0]
@@ -319,7 +324,13 @@ class siteBase(cs.Cmnd):
         if action == "update":
             if not bpoId:
                 return failed(cmndOutcome)
-            return siteBisosSelect().pyCmnd(argsList=[bpoId])
+            selectOutcome = siteBisosSelect().pyCmnd(argsList=[bpoId])
+            if selectOutcome.isProblematic():
+                return b_io.eh.badOutcome(cmndOutcome)
+
+            pathPlus.symlink_update(siteBisosBase().joinpath("selected"), Path("/bisos/site"))
+
+            return cmndOutcome.set(opResults=Path("/bisos/site"))
 
         elif action == "obtain":
             return cmndOutcome.set(opResults=Path("/bisos/site"))
